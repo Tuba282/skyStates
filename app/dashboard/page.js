@@ -227,6 +227,7 @@ export default function DashboardPage() {
               <p className="text-slate-400 font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredProperties.length} ACTIVE</p>
             </div>
           </div>
+          
           <SearchBar placeholder="Search registry..." value={searchTerm} onChange={setSearchTerm} />
         </header>
 
