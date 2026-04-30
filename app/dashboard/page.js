@@ -5,8 +5,8 @@ import axios from 'axios';
 import { useAuth } from '@/context/AuthContext';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Card, Badge, Button, cn } from '@/components/ui';
-import { 
-  Home, TrendingUp, Users as UsersIcon, MessageSquare, 
+import {
+  Home, TrendingUp, Users as UsersIcon, MessageSquare,
   Plus, Edit2, Trash2, User as UserIcon,
   Search, MapPin, CheckCircle, XCircle, Eye, ChevronRight, X, ShieldAlert,
   UserPlus, Lock, Mail, UserCircle
@@ -19,8 +19,8 @@ import toast from 'react-hot-toast';
 const SearchBar = ({ placeholder, value, onChange }) => (
   <div className="relative group max-w-xs w-full">
     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors" size={18} />
-    <input 
-      type="text" 
+    <input
+      type="text"
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
@@ -35,13 +35,13 @@ const PaginationTrigger = ({ totalItems, itemsPerPage, currentPage, setCurrentPa
   return (
     <div className="flex items-center justify-center gap-2 mt-8 pb-4">
       {[...Array(totalPages)].map((_, i) => (
-        <Button 
-          key={i} 
+        <Button
+          key={i}
           variant={currentPage === i + 1 ? 'default' : 'outline'}
           className={cn(
-            "h-10 w-10 rounded-xl font-black text-sm transition-all", 
-            currentPage === i + 1 
-              ? "bg-primary text-white shadow-lg shadow-primary/20 border-primary" 
+            "h-10 w-10 rounded-xl font-black text-sm transition-all",
+            currentPage === i + 1
+              ? "bg-primary text-white shadow-lg shadow-primary/20 border-primary"
               : "text-slate-400 border-slate-200 hover:border-primary/30 hover:text-primary"
           )}
           onClick={() => setCurrentPage(i + 1)}
@@ -58,7 +58,7 @@ export default function DashboardPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const view = searchParams.get('view') || 'overview';
-  
+
   const [stats, setStats] = useState(null);
   const [properties, setProperties] = useState([]);
   const [inquiries, setInquiries] = useState([]);
@@ -82,13 +82,13 @@ export default function DashboardPage() {
         axios.get(`/api/properties${isAgent ? `?agent=${user.id}` : ''}`),
         axios.get('/api/inquiries')
       ];
-      
+
       if (isAdmin && view === 'users') {
         endpoints.push(axios.get('/api/admin/users'));
       }
 
       const res = await Promise.all(endpoints);
-      
+
       setStats(res[0].data);
       setProperties(res[1].data || []);
       setInquiries(res[2].data || []);
@@ -191,18 +191,18 @@ export default function DashboardPage() {
   }
 
   // --- FILTERS ---
-  const filteredProperties = properties.filter(p => 
-    p.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredProperties = properties.filter(p =>
+    p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredInquiries = inquiries.filter(i => 
-    i.senderName.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredInquiries = inquiries.filter(i =>
+    i.senderName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     i.message.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredUsers = usersList.filter(u => 
-    u.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredUsers = usersList.filter(u =>
+    u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     u.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -218,16 +218,16 @@ export default function DashboardPage() {
     return (
       <div className="space-y-6 animate-fade-in-up">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-           <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center text-white shadow-xl shadow-primary/20">
-                 <Home size={24} strokeWidth={2.5} />
-              </div>
-              <div>
-                <h1 className="text-xl font-black text-slate-900 leading-none">Property <span className="text-primary italic">Vault</span></h1>
-                <p className="text-slate-400 font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredProperties.length} ACTIVE</p>
-              </div>
-           </div>
-           <SearchBar placeholder="Search registry..." value={searchTerm} onChange={setSearchTerm} />
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center text-white shadow-xl shadow-primary/20">
+              <Home size={24} strokeWidth={2.5} />
+            </div>
+            <div>
+              <h1 className="text-xl font-black text-slate-900 leading-none">Property <span className="text-primary italic">Vault</span></h1>
+              <p className="text-slate-400 font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredProperties.length} ACTIVE</p>
+            </div>
+          </div>
+          <SearchBar placeholder="Search registry..." value={searchTerm} onChange={setSearchTerm} />
         </header>
 
         <Card className="overflow-hidden border-none shadow-xl rounded-[32px] bg-white">
@@ -257,28 +257,28 @@ export default function DashboardPage() {
                       ${prop.price.toLocaleString()}
                     </td>
                     <td className="px-6 py-4">
-                       <Badge variant="outline" className={cn(
-                         "text-[9px] uppercase font-black tracking-widest border-emerald-100 bg-emerald-50 text-emerald-600",
-                         prop.status !== 'Approved' && "border-amber-100 bg-amber-50 text-amber-600"
-                       )}>
-                         {prop.status.toUpperCase()}
-                       </Badge>
+                      <Badge variant="outline" className={cn(
+                        "text-[9px] uppercase font-black tracking-widest border-emerald-100 bg-emerald-50 text-emerald-600",
+                        prop.status !== 'Approved' && "border-amber-100 bg-amber-50 text-amber-600"
+                      )}>
+                        {prop.status.toUpperCase()}
+                      </Badge>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
                         {/* Always show View button */}
                         <Button onClick={() => window.open(`/properties/${prop._id || prop.id}`, '_blank')} size="icon" variant="ghost" className="h-9 w-9 rounded-lg text-slate-400 hover:text-emerald-500 hover:bg-emerald-50 transition-colors"><Eye size={16} /></Button>
-                        
+
                         {isAdmin ? (
                           <>
-                            <Button 
-                              onClick={() => handleTogglePropertyStatus(prop._id || prop.id, prop.status)} 
-                              size="icon" 
-                              variant="ghost" 
+                            <Button
+                              onClick={() => handleTogglePropertyStatus(prop._id || prop.id, prop.status)}
+                              size="icon"
+                              variant="ghost"
                               className={cn(
                                 "h-9 w-9 rounded-lg transition-colors",
-                                prop.status === 'Approved' 
-                                  ? "text-amber-500 hover:bg-amber-50" 
+                                prop.status === 'Approved'
+                                  ? "text-amber-500 hover:bg-amber-50"
                                   : "text-emerald-500 hover:bg-emerald-50"
                               )}
                               title={prop.status === 'Approved' ? 'Mark Pending' : 'Approve'}
@@ -311,38 +311,38 @@ export default function DashboardPage() {
     return (
       <div className="space-y-6 animate-fade-in-up">
         <header className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-slate-900">
-           <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                 <MessageSquare size={24} strokeWidth={2.5} />
-              </div>
-              <div>
-                <h1 className="text-xl font-black leading-none tracking-tight">Signal <span className="text-primary italic">Bridge</span></h1>
-                <p className="text-slate-400 font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredInquiries.length} SIGNALS</p>
-              </div>
-           </div>
-           <SearchBar placeholder="Search decrypt..." value={searchTerm} onChange={setSearchTerm} />
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+              <MessageSquare size={24} strokeWidth={2.5} />
+            </div>
+            <div>
+              <h1 className="text-xl font-black leading-none tracking-tight">Signal <span className="text-primary italic">Bridge</span></h1>
+              <p className="text-slate-400 font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredInquiries.length} SIGNALS</p>
+            </div>
+          </div>
+          <SearchBar placeholder="Search decrypt..." value={searchTerm} onChange={setSearchTerm} />
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {data.map(inq => (
             <Card key={inq._id} className="p-6 border-none bg-white shadow-xl rounded-2xl group hover:-translate-y-1 transition-all">
-               <div className="flex justify-between items-start mb-4">
-                  <div className="flex items-center gap-3">
-                     <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 shrink-0">
-                        <UserIcon className="text-primary" size={20} />
-                     </div>
-                     <div>
-                        <h4 className="font-black text-slate-900 text-sm leading-none mb-1">{inq.senderName}</h4>
-                        <p className="text-primary text-[9px] font-black uppercase tracking-widest">{inq.senderEmail}</p>
-                     </div>
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 shrink-0">
+                    <UserIcon className="text-primary" size={20} />
                   </div>
-                  <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-[8px] tracking-widest">{inq.status.toUpperCase()}</Badge>
-               </div>
-               <p className="text-slate-500 text-xs font-bold italic leading-relaxed mb-4 bg-slate-50 p-3 rounded-xl border border-white">"{inq.message}"</p>
-               <div className="flex gap-2">
-                  <Button className="flex-grow h-10 rounded-xl font-black text-[10px] tracking-widest">TRANSMIT REPLY</Button>
-                  <Button variant="outline" className="h-10 px-4 rounded-xl text-slate-400 font-black border-slate-100 hover:bg-slate-50 hover:text-slate-900 text-[9px] uppercase tracking-widest">ARCHIVE</Button>
-               </div>
+                  <div>
+                    <h4 className="font-black text-slate-900 text-sm leading-none mb-1">{inq.senderName}</h4>
+                    <p className="text-primary text-[9px] font-black uppercase tracking-widest">{inq.senderEmail}</p>
+                  </div>
+                </div>
+                <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-[8px] tracking-widest">{inq.status.toUpperCase()}</Badge>
+              </div>
+              <p className="text-slate-500 text-xs font-bold italic leading-relaxed mb-4 bg-slate-50 p-3 rounded-xl border border-white">"{inq.message}"</p>
+              <div className="flex gap-2">
+                <Button className="flex-grow h-10 rounded-xl font-black text-[10px] tracking-widest">TRANSMIT REPLY</Button>
+                <Button variant="outline" className="h-10 px-4 rounded-xl text-slate-400 font-black border-slate-100 hover:bg-slate-50 hover:text-slate-900 text-[9px] uppercase tracking-widest">ARCHIVE</Button>
+              </div>
             </Card>
           ))}
         </div>
@@ -356,19 +356,19 @@ export default function DashboardPage() {
     return (
       <div className="space-y-6 animate-fade-in-up relative">
         <header className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-           <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-xl bg-purple-600 flex items-center justify-center text-white shadow-xl shadow-purple-600/20">
-                 <UsersIcon size={24} strokeWidth={2.5} />
-              </div>
-              <div>
-                <h1 className="text-xl font-black leading-none tracking-tight text-slate-900">Citizen <span className="text-purple-600 italic">Control</span></h1>
-                <p className="text-slate-400 font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredUsers.length} PROFILES</p>
-              </div>
-           </div>
-           <div className="flex items-center gap-3 w-full md:w-auto">
-             <SearchBar placeholder="Search profiles..." value={searchTerm} onChange={setSearchTerm} />
-             <Button onClick={() => setShowAddUserModal(true)} className="h-10 rounded-xl bg-purple-600 text-white font-black text-xs gap-2 px-4 whitespace-nowrap"><UserPlus size={16} /> ACTIVATE AGENT</Button>
-           </div>
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-xl bg-purple-600 flex items-center justify-center text-white shadow-xl shadow-purple-600/20">
+              <UsersIcon size={24} strokeWidth={2.5} />
+            </div>
+            <div>
+              <h1 className="text-xl font-black leading-none tracking-tight text-slate-900">Citizen <span className="text-purple-600 italic">Control</span></h1>
+              <p className="text-slate-400 font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredUsers.length} PROFILES</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <SearchBar placeholder="Search profiles..." value={searchTerm} onChange={setSearchTerm} />
+            <Button onClick={() => setShowAddUserModal(true)} className="h-10 rounded-xl bg-purple-600 text-white font-black text-xs gap-2 px-4 whitespace-nowrap"><UserPlus size={16} /> ACTIVATE AGENT</Button>
+          </div>
         </header>
 
         <Card className="overflow-hidden border-none shadow-xl rounded-[32px] bg-white">
@@ -406,9 +406,9 @@ export default function DashboardPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
-                         <Button onClick={() => handleUpdatePassword(u._id)} size="icon" variant="ghost" className="h-8 w-8 rounded-lg text-slate-400 hover:text-primary hover:bg-primary/5"><Lock size={14} /></Button>
-                         <Button onClick={() => handleToggleBlock(u)} size="sm" variant="ghost" className={cn("h-8 px-3 rounded-lg font-black text-[8px] uppercase tracking-widest transition-colors", u.status === 'BLOCKED' ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100' : 'bg-amber-50 text-amber-600 hover:bg-amber-100')}>{u.status === 'BLOCKED' ? 'UNBLOCK' : 'BLOCK'}</Button>
-                         <Button onClick={() => handleDeleteUser(u._id)} size="sm" variant="ghost" className="h-8 px-3 rounded-lg bg-red-50 text-red-600 font-black text-[8px] uppercase tracking-widest hover:bg-red-100">TERM</Button>
+                        <Button onClick={() => handleUpdatePassword(u._id)} size="icon" variant="ghost" className="h-8 w-8 rounded-lg text-slate-400 hover:text-primary hover:bg-primary/5"><Lock size={14} /></Button>
+                        <Button onClick={() => handleToggleBlock(u)} size="sm" variant="ghost" className={cn("h-8 px-3 rounded-lg font-black text-[8px] uppercase tracking-widest transition-colors", u.status === 'BLOCKED' ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100' : 'bg-amber-50 text-amber-600 hover:bg-amber-100')}>{u.status === 'BLOCKED' ? 'UNBLOCK' : 'BLOCK'}</Button>
+                        <Button onClick={() => handleDeleteUser(u._id)} size="sm" variant="ghost" className="h-8 px-3 rounded-lg bg-red-50 text-red-600 font-black text-[8px] uppercase tracking-widest hover:bg-red-100">TERM</Button>
                       </div>
                     </td>
                   </tr>
@@ -431,26 +431,26 @@ export default function DashboardPage() {
                   <label className="text-[10px] font-black text-slate-400 uppercase ml-2">Display Name</label>
                   <div className="relative">
                     <UserCircle className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} type="text" className="w-full pl-11 pr-4 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-purple-200 outline-none font-bold text-sm text-slate-900" placeholder="Full Name" />
+                    <input required value={newUser.name} onChange={e => setNewUser({ ...newUser, name: e.target.value })} type="text" className="w-full pl-11 pr-4 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-purple-200 outline-none font-bold text-sm text-slate-900" placeholder="Full Name" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-black text-slate-400 uppercase ml-2">Access Email</label>
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required value={newUser.email} onChange={e => setNewUser({...newUser, email: e.target.value})} type="email" className="w-full pl-11 pr-4 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-purple-200 outline-none font-bold text-sm text-slate-900" placeholder="email@skyestate.com" />
+                    <input required value={newUser.email} onChange={e => setNewUser({ ...newUser, email: e.target.value })} type="email" className="w-full pl-11 pr-4 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-purple-200 outline-none font-bold text-sm text-slate-900" placeholder="email@skyestate.com" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-black text-slate-400 uppercase ml-2">Initial Key</label>
                   <div className="relative">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input required value={newUser.password} onChange={e => setNewUser({...newUser, password: e.target.value})} type="password" className="w-full pl-11 pr-4 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-purple-200 outline-none font-bold text-sm text-slate-900" placeholder="••••••••" />
+                    <input required value={newUser.password} onChange={e => setNewUser({ ...newUser, password: e.target.value })} type="password" className="w-full pl-11 pr-4 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-purple-200 outline-none font-bold text-sm text-slate-900" placeholder="••••••••" />
                   </div>
                 </div>
                 <div className="space-y-1.5 pb-2">
                   <label className="text-[10px] font-black text-slate-400 uppercase ml-2">Assigned Role</label>
-                  <select value={newUser.role} onChange={e => setNewUser({...newUser, role: e.target.value})} className="w-full px-4 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-purple-200 outline-none font-black text-sm text-slate-900 appearance-none">
+                  <select value={newUser.role} onChange={e => setNewUser({ ...newUser, role: e.target.value })} className="w-full px-4 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-purple-200 outline-none font-black text-sm text-slate-900 appearance-none">
                     <option value="AGENT">FIELD AGENT</option>
                     <option value="ADMIN">SYS ADMINISTRATOR</option>
                   </select>
@@ -480,11 +480,11 @@ export default function DashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 h-32 w-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         <div className="relative">
-           <h1 className="text-3xl font-black text-slate-900 tracking-tighter leading-none mb-2">SkyEstate <span className="text-primary italic">OS</span></h1>
-           <p className="text-slate-400 font-bold text-sm flex items-center gap-2">
-             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> 
-             Authenticated: <span className="font-black text-slate-900">{user.name}</span>
-           </p>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tighter leading-none mb-2">SkyEstate <span className="text-primary italic">OS</span></h1>
+          <p className="text-slate-400 font-bold text-sm flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            Authenticated: <span className="font-black text-slate-900">{user.name}</span>
+          </p>
         </div>
         {isAgent && (
           <Link href="/dashboard/add-property" className="relative group shrink-0">
@@ -500,11 +500,11 @@ export default function DashboardPage() {
         {statCards.map((stat, idx) => (
           <Card key={idx} className="p-6 border-none bg-white shadow-xl rounded-3xl relative overflow-hidden group">
             <div className={`p-3 bg-slate-50 rounded-xl ${stat.color} mb-4 w-fit`}>
-               <stat.icon size={28} strokeWidth={2.5} />
+              <stat.icon size={28} strokeWidth={2.5} />
             </div>
             <div>
-               <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
-               <h3 className="text-3xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{stat.label}</p>
+              <h3 className="text-3xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
             </div>
           </Card>
         ))}
@@ -512,58 +512,58 @@ export default function DashboardPage() {
 
       {/* Main Panel */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-         <div className="xl:col-span-2 space-y-4">
-            <div className="flex items-center justify-between px-2">
-               <h2 className="text-xl font-black text-slate-900 tracking-tight">Active Inventory</h2>
-               <Link href="/dashboard?view=listings" className="text-primary font-black text-xs hover:underline uppercase tracking-widest">Portal Access</Link>
-            </div>
-            <Card className="border-none shadow-xl rounded-3xl bg-white overflow-hidden p-2">
-               <table className="w-full text-left text-sm text-slate-900">
-                 <tbody className="divide-y divide-slate-50">
-                   {properties.slice(0, 4).map((prop) => (
-                     <tr key={prop._id || prop.id} className="hover:bg-slate-50/80 transition-all group">
-                       <td className="px-4 py-4">
-                          <div className="flex items-center gap-4">
-                             <img src={prop.images[0]} alt="" className="h-14 w-14 rounded-2xl object-cover shadow-md border-2 border-white" />
-                             <div>
-                                <p className="font-black text-slate-900 leading-none mb-1 tracking-tight">{prop.title}</p>
-                                <p className="text-slate-400 font-bold text-[10px] tracking-tight">{prop.location}</p>
-                             </div>
-                          </div>
-                       </td>
-                       <td className="px-4 py-4 text-right">
-                          <p className="font-black text-primary text-xl tracking-tighter">${prop.price.toLocaleString()}</p>
-                          <Badge className="bg-slate-100 text-slate-400 border-none font-black text-[8px] px-2 py-0">UNIT</Badge>
-                       </td>
-                     </tr>
-                   ))}
-                 </tbody>
-               </table>
-            </Card>
-         </div>
+        <div className="xl:col-span-2 space-y-4">
+          <div className="flex items-center justify-between px-2">
+            <h2 className="text-xl font-black text-slate-900 tracking-tight">Active Inventory</h2>
+            <Link href="/dashboard?view=listings" className="text-primary font-black text-xs hover:underline uppercase tracking-widest">Portal Access</Link>
+          </div>
+          <Card className="border-none shadow-xl rounded-3xl bg-white overflow-hidden p-2">
+            <table className="w-full text-left text-sm text-slate-900">
+              <tbody className="divide-y divide-slate-50">
+                {properties.slice(0, 4).map((prop) => (
+                  <tr key={prop._id || prop.id} className="hover:bg-slate-50/80 transition-all group">
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-4">
+                        <img src={prop.images[0]} alt="" className="h-14 w-14 rounded-2xl object-cover shadow-md border-2 border-white" />
+                        <div>
+                          <p className="font-black text-slate-900 leading-none mb-1 tracking-tight">{prop.title}</p>
+                          <p className="text-slate-400 font-bold text-[10px] tracking-tight">{prop.location}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4 text-right">
+                      <p className="font-black text-primary text-xl tracking-tighter">${prop.price.toLocaleString()}</p>
+                      <Badge className="bg-slate-100 text-slate-400 border-none font-black text-[8px] px-2 py-0">UNIT</Badge>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Card>
+        </div>
 
-         <div className="xl:col-span-1 space-y-4">
-            <div className="flex items-center justify-between px-2">
-               <h2 className="text-xl font-black text-slate-900 tracking-tight">System Stream</h2>
-               <Link href="/dashboard?view=inquiries" className="text-accent font-black text-xs hover:underline uppercase tracking-widest">Signal Hub</Link>
-            </div>
-            <div className="space-y-4">
-               {inquiries.slice(0, 3).map(inq => (
-                 <Card key={inq._id} className="p-5 border-none bg-white shadow-xl rounded-3xl border-l-4 border-l-primary/10">
-                    <div className="flex items-center gap-3 mb-3">
-                       <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100">
-                          <UserIcon size={20} className="text-primary" />
-                       </div>
-                       <div>
-                          <h4 className="font-black text-slate-900 text-sm leading-none mb-1 truncate">{inq.senderName}</h4>
-                          <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">LEAD SIGNAL</p>
-                       </div>
-                    </div>
-                    <p className="text-slate-500 font-bold text-[10px] italic line-clamp-2">"{inq.message}"</p>
-                 </Card>
-               ))}
-            </div>
-         </div>
+        <div className="xl:col-span-1 space-y-4">
+          <div className="flex items-center justify-between px-2">
+            <h2 className="text-xl font-black text-slate-900 tracking-tight">System Stream</h2>
+            <Link href="/dashboard?view=inquiries" className="text-accent font-black text-xs hover:underline uppercase tracking-widest">Signal Hub</Link>
+          </div>
+          <div className="space-y-4">
+            {inquiries.slice(0, 3).map(inq => (
+              <Card key={inq._id} className="p-5 border-none bg-white shadow-xl rounded-3xl border-l-4 border-l-primary/10">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100">
+                    <UserIcon size={20} className="text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-slate-900 text-sm leading-none mb-1 truncate">{inq.senderName}</h4>
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">LEAD SIGNAL</p>
+                  </div>
+                </div>
+                <p className="text-slate-500 font-bold text-[10px] italic line-clamp-2">"{inq.message}"</p>
+              </Card>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

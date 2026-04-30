@@ -79,7 +79,7 @@ export default function AddPropertyPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-10">
       <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-black text-foreground">Next Level <span className="text-primary italic">Listing</span></h1>
+        <h1 className="text-4xl font-black">Next Level <span className="text-primary italic">Listing</span></h1>
         <div className="flex items-center gap-2">
            {[1, 2, 3].map(s => (
              <div key={s} className={`h-2 w-12 rounded-full transition-all duration-500 ${step >= s ? 'bg-primary' : 'bg-muted'}`} />
@@ -93,7 +93,7 @@ export default function AddPropertyPage() {
             <Card className="p-8 space-y-8">
               <h3 className="text-2xl font-black flex items-center gap-2"><Info className="text-primary" /> Basic Info</h3>
               <div className="space-y-6">
-                <Input name="title" label="Title" placeholder="Modern Villa" onChange={updateForm} required />
+                <Input name="title" label="Title" placeholder="Modern Villa" onChange={updateForm} required className={'text-black'}/>
                 <div className="grid grid-cols-2 gap-6">
                    <div className="space-y-1.5">
                      <label className="text-sm font-bold">Category</label>
@@ -112,8 +112,8 @@ export default function AddPropertyPage() {
                    </div>
                 </div>
                 <div className="grid grid-cols-2 gap-6">
-                   <Input name="price" label="Price ($)" type="number" onChange={updateForm} required />
-                   <Input name="area" label="Area" placeholder="2500 sqft" onChange={updateForm} required />
+                   <Input name="price" label="Price ($)" type="number" onChange={updateForm} required className={'text-black'}/>
+                   <Input name="area" label="Area" placeholder="2500 sqft" onChange={updateForm} required className={'text-black'}/>
                 </div>
               </div>
             </Card>
@@ -125,7 +125,7 @@ export default function AddPropertyPage() {
           <section className="animate-fade-in space-y-6">
             <Card className="p-8 space-y-8">
               <h3 className="text-2xl font-black flex items-center gap-2"><MapPin className="text-primary" /> Details</h3>
-                <Input name="location" label="Location" placeholder="Islamabad, Pakistan" onChange={updateForm} required />
+                <Input name="location" label="Location" placeholder="Islamabad, Pakistan" onChange={updateForm} required className={'text-black'}/>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                    <Input name="beds" label="Beds" type="number" onChange={updateForm} defaultValue={2} />
                    <Input name="baths" label="Baths" type="number" onChange={updateForm} defaultValue={1} />
