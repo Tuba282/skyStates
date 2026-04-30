@@ -2,7 +2,7 @@
 
 :root {
   --foreground: #F8FAFC;
-  --background: #0F172A;
+  --background: #020617; /* Deep Navy Black */
   --primary: #0EA5E9;
   --primary-foreground: #FFFFFF;
   --secondary: #0284C7;
@@ -10,13 +10,13 @@
   --accent: #22C55E;
   --accent-foreground: #FFFFFF;
   --muted: #64748B;
-  --muted-foreground: #F1F5F9;
-  --card: #FFFFFF;
-  --card-foreground: #0F172A;
-  --border: #E2E8F0;
-  --input: #E2E8F0;
+  --muted-foreground: #94A3B8;
+  --card: #0F172A; /* Slightly lighter navy for cards */
+  --card-foreground: #F8FAFC;
+  --border: #1E293B;
+  --input: #1E293B;
   --ring: #0EA5E9;
-  --radius: 0.75rem;
+  --radius: 1rem;
 }
 
 @theme inline {
@@ -43,16 +43,6 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0F172A;
-    --foreground: #F8FAFC;
-    --card: #1E293B;
-    --border: #334155;
-    --muted: #94A3B8;
-  }
 }
 
 body {

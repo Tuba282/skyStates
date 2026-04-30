@@ -58,22 +58,22 @@ export default function PropertiesPage() {
         {/* Header Area */}
         <div className="mb-10">
           <h1 className="text-4xl font-black text-foreground mb-2">Explore <span className="text-primary italic">All Listings</span></h1>
-          <p className="text-muted">Discover {filteredProperties.length} active properties</p>
+          <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px]">Discover {filteredProperties.length} active properties</p>
         </div>
 
         {/* Filter Bar */}
         <div className="flex flex-col lg:flex-row gap-4 mb-10">
-          <div className="flex-grow glass p-2 rounded-2xl flex items-center shadow-2xl border border-black/5 bg-white/80">
+          <div className="flex-grow glass p-2 rounded-2xl flex items-center shadow-2xl border border-border bg-card">
             <div className="relative flex-grow">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-primary" size={20} />
               <input 
                 placeholder="Search by location, title, or agency..." 
-                className="w-full pl-12 pr-4 py-4 bg-transparent text-slate-900 placeholder:text-slate-500 focus:outline-none font-bold"
+                className="w-full pl-12 pr-4 py-4 bg-transparent text-foreground placeholder:text-muted outline-none font-bold"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            <div className="hidden md:flex gap-1 p-1 bg-black/5 rounded-xl border border-black/5">
+            <div className="hidden md:flex gap-1 p-1 bg-background/50 rounded-xl border border-border">
               {['All', 'Sale', 'Rent'].map((tab) => (
                 <button
                   key={tab}
@@ -81,7 +81,7 @@ export default function PropertiesPage() {
                   className={`px-6 py-2 rounded-lg text-sm font-black transition-all ${
                     activeTab === tab 
                       ? 'bg-primary text-white shadow-lg' 
-                      : 'text-slate-600 hover:text-primary hover:bg-black/5'
+                      : 'text-muted-foreground hover:text-primary hover:bg-background'
                   }`}
                 >
                   {tab}
@@ -92,7 +92,7 @@ export default function PropertiesPage() {
           
           <Button 
             variant={showFilters ? 'primary' : 'outline'} 
-            className="py-3 px-8 h-auto flex items-center gap-2 rounded-2xl transition-all font-black text-lg shadow-xl border-white/20" 
+            className="py-3 px-8 h-auto flex items-center gap-2 rounded-2xl transition-all font-black text-lg shadow-xl border-border" 
             onClick={() => setShowFilters(!showFilters)}
           >
             <SlidersHorizontal size={22} className={showFilters ? 'text-white' : 'text-primary'} /> 
@@ -102,13 +102,13 @@ export default function PropertiesPage() {
 
         {/* Advanced Filters Panel */}
         {showFilters && (
-          <div className="glass p-8 rounded-[40px] mb-12 grid grid-cols-1 md:grid-cols-4 gap-8 animate-slide-down border border-black/5 shadow-2xl bg-white/90">
+          <div className="glass p-8 rounded-[40px] mb-12 grid grid-cols-1 md:grid-cols-4 gap-8 animate-slide-down border border-border shadow-2xl bg-card/90 backdrop-blur-xl">
             <div className="space-y-3">
-              <label className="text-sm font-black text-slate-900 uppercase tracking-widest pl-1">Category</label>
+              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest pl-1">Category</label>
               <select 
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-black/5 border border-black/10 rounded-2xl p-4 text-slate-900 outline-none focus:ring-2 focus:ring-primary/50 font-bold"
+                className="w-full bg-background border border-border rounded-2xl p-4 text-foreground outline-none focus:ring-2 focus:ring-primary/50 font-bold appearance-none"
               >
                 <option value="All">All Categories</option>
                 <option value="Villa">Villa</option>
@@ -118,26 +118,26 @@ export default function PropertiesPage() {
               </select>
             </div>
             <div className="space-y-3">
-              <label className="text-sm font-black text-slate-900 uppercase tracking-widest pl-1">Min Price</label>
+              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest pl-1">Min Price</label>
               <input 
                 type="number" 
                 placeholder="Ex. 50000" 
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
-                className="w-full bg-black/5 border border-black/10 rounded-2xl p-4 text-slate-900 placeholder:text-slate-500 outline-none focus:ring-2 focus:ring-primary/50 font-bold" 
+                className="w-full bg-background border border-border rounded-2xl p-4 text-foreground placeholder:text-muted outline-none focus:ring-2 focus:ring-primary/50 font-bold" 
               />
             </div>
             <div className="space-y-3">
-              <label className="text-sm font-black text-slate-900 uppercase tracking-widest pl-1">Beds</label>
+              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest pl-1">Beds</label>
               <div className="flex gap-2">
                 {['All', 1, 2, 3, '4+'].map(b => (
                   <button 
                     key={b} 
                     onClick={() => setBeds(b)}
-                    className={`flex-grow py-3 rounded-xl transition-all font-black ${
+                    className={`flex-grow py-3 rounded-xl transition-all font-black text-sm ${
                       beds === b 
                         ? 'bg-primary text-white shadow-lg' 
-                        : 'bg-black/5 border border-black/5 text-slate-600 hover:bg-black/10'
+                        : 'bg-background border border-border text-muted-foreground hover:bg-card'
                     }`}
                   >
                     {b}
@@ -154,7 +154,7 @@ export default function PropertiesPage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map(n => (
-              <div key={n} className="h-80 bg-muted rounded-3xl animate-pulse" />
+              <div key={n} className="h-80 bg-card rounded-3xl animate-pulse" />
             ))}
           </div>
         ) : (
@@ -166,9 +166,9 @@ export default function PropertiesPage() {
         )}
 
         {!loading && filteredProperties.length === 0 && (
-          <div className="text-center py-32 glass rounded-3xl">
+          <div className="text-center py-32 glass rounded-3xl bg-card border-border border">
              <MapPin size={64} className="mx-auto text-muted mb-6" />
-             <h2 className="text-3xl font-black mb-4">No Properties Found</h2>
+             <h2 className="text-3xl font-black mb-4 text-foreground">No Properties Found</h2>
              <Button variant="outline" onClick={() => { setSearch(''); setActiveTab('All'); }}>Clear Filters</Button>
           </div>
         )}

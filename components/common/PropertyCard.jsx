@@ -55,9 +55,9 @@ export default function PropertyCard({ property }) {
         </div>
         <button 
           onClick={toggleFavorite}
-          className="absolute top-3 right-3 p-2 rounded-full glass hover:bg-white transition-colors group/fav"
+          className="absolute top-3 right-3 p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 hover:bg-black/60 transition-colors group/fav"
         >
-          <Heart className={isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600 group-hover/fav:text-red-500'} size={20} />
+          <Heart className={isFavorite ? 'fill-red-500 text-red-500' : 'text-white/80 group-hover/fav:text-red-500'} size={20} />
         </button>
       </div>
 

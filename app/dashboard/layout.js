@@ -38,10 +38,10 @@ export default function DashboardLayout({ children }) {
   }, [currentView]);
 
   if (loading || !user) return (
-    <div className="h-screen flex items-center justify-center bg-slate-50">
+    <div className="h-screen flex items-center justify-center bg-background">
        <div className="flex flex-col items-center gap-4">
-          <div className="h-10 w-10 rounded-full border-4 border-slate-200 border-t-primary animate-spin" />
-          <p className="font-black text-slate-400 uppercase tracking-[0.3em] text-[10px] animate-pulse">Syncing OS...</p>
+          <div className="h-10 w-10 rounded-full border-4 border-slate-800 border-t-primary animate-spin" />
+          <p className="font-black text-slate-500 uppercase tracking-[0.3em] text-[10px] animate-pulse">Syncing OS...</p>
        </div>
     </div>
   );
@@ -72,16 +72,16 @@ export default function DashboardLayout({ children }) {
     <>
       <div className="p-6 flex-grow overflow-y-auto no-scrollbar">
          {/* Profile Header */}
-         <div className="flex items-center gap-3 mb-10 p-3 bg-slate-50 rounded-2xl border border-slate-100 shadow-inner">
+         <div className="flex items-center gap-3 mb-10 p-3 bg-background/50 rounded-2xl border border-border shadow-inner">
             <div className="relative">
-              <img src={user.avatar || 'https://i.pravatar.cc/150'} alt={user.name} className="h-11 w-11 rounded-xl object-cover shadow-sm border-2 border-white" />
-              <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-emerald-500 border-2 border-white rounded-full" />
+              <img src={user.avatar || 'https://i.pravatar.cc/150'} alt={user.name} className="h-11 w-11 rounded-xl object-cover shadow-sm border-2 border-border" />
+              <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-emerald-500 border-2 border-card rounded-full" />
             </div>
             <div className="min-w-0">
-              <p className="font-black text-slate-900 leading-none mb-1 text-sm truncate">{user.name}</p>
+              <p className="font-black text-foreground leading-none mb-1 text-sm truncate">{user.name}</p>
               <Badge className={cn(
                 "border-none text-[8px] font-black uppercase px-2 py-0 shadow-none",
-                isAdmin ? "bg-purple-100 text-purple-600" : "bg-primary/10 text-primary"
+                isAdmin ? "bg-purple-600/20 text-purple-600" : "bg-primary/10 text-primary"
               )}>
                 {user.role}
               </Badge>
@@ -99,7 +99,7 @@ export default function DashboardLayout({ children }) {
                     "flex items-center justify-between p-3.5 rounded-xl font-black text-sm transition-all group border-2",
                     isActive 
                       ? "bg-primary text-white border-primary shadow-lg shadow-primary/20 scale-[1.02]" 
-                      : "text-slate-400 border-transparent hover:bg-slate-50 hover:text-slate-900"
+                      : "text-slate-500 border-transparent hover:bg-card hover:text-foreground"
                   )}
                 >
                   <div className="flex items-center gap-3">
@@ -114,13 +114,13 @@ export default function DashboardLayout({ children }) {
       </div>
 
       {/* Logout Section */}
-      <div className="p-6 border-t border-slate-100 bg-white">
+      <div className="p-6 border-t border-border bg-card">
         <Button 
           variant="ghost" 
-          className="w-full justify-start text-red-500 hover:bg-red-50 hover:text-red-700 font-black text-xs gap-3 rounded-xl h-12 transition-all active:scale-95 px-4 group" 
+          className="w-full justify-start text-red-500 hover:bg-red-500/10 hover:text-red-600 font-black text-xs gap-3 rounded-xl h-12 transition-all active:scale-95 px-4 group" 
           onClick={logout}
         >
-          <div className="h-8 w-8 rounded-lg bg-red-50 flex items-center justify-center group-hover:bg-red-100 transition-colors">
+          <div className="h-8 w-8 rounded-lg bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
             <LogOut size={18} />
           </div>
           TERMINATE SESSION
@@ -130,25 +130,25 @@ export default function DashboardLayout({ children }) {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row relative">
+    <div className="min-h-screen bg-background flex flex-col md:flex-row relative">
       {/* Mobile Top Bar */}
-      <div className="md:hidden bg-white border-b border-slate-200 p-4 flex items-center justify-between sticky top-0 z-[60] shadow-sm">
+      <div className="md:hidden bg-card border-b border-border p-4 flex items-center justify-between sticky top-0 z-[60] shadow-sm">
          <div className="flex items-center gap-2">
            <img src="/logo.png" alt="Logo" className="h-8 w-auto object-contain" />
-           <span className="font-black text-slate-900 tracking-tighter">SkyEstate <span className="text-primary italic">OS</span></span>
+           <span className="font-black text-foreground tracking-tighter">SkyEstate <span className="text-primary italic">OS</span></span>
          </div>
-         <Button size="icon" variant="ghost" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="h-10 w-10 text-slate-600 rounded-xl bg-slate-50 hover:bg-slate-100">
+         <Button size="icon" variant="ghost" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="h-10 w-10 text-slate-400 rounded-xl bg-background hover:bg-card border-border border">
             {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
          </Button>
       </div>
 
       {/* Mobile Overlay Navigation */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] md:hidden animate-in fade-in transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-           <div className="w-[85%] max-w-[300px] bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-left duration-300" onClick={e => e.stopPropagation()}>
-              <div className="p-6 flex items-center justify-between border-b border-slate-100">
-                <span className="font-black text-[10px] text-slate-400 uppercase tracking-widest bg-slate-50 px-2 py-1 rounded-md">Navigation Terminal</span>
-                <Button size="icon" variant="ghost" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-400 hover:text-slate-600">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[70] md:hidden animate-in fade-in transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+           <div className="w-[85%] max-w-[300px] bg-card h-full shadow-2xl flex flex-col animate-in slide-in-from-left duration-300 border-r border-border" onClick={e => e.stopPropagation()}>
+              <div className="p-6 flex items-center justify-between border-b border-border">
+                <span className="font-black text-[10px] text-slate-500 uppercase tracking-widest bg-background px-2 py-1 rounded-md">Navigation Terminal</span>
+                <Button size="icon" variant="ghost" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-500 hover:text-foreground">
                    <X size={20} />
                 </Button>
               </div>
@@ -158,13 +158,13 @@ export default function DashboardLayout({ children }) {
       )}
 
       {/* Desktop Persistent Sidebar */}
-      <aside className="hidden md:flex w-72 bg-white border-r border-slate-200 flex-col sticky top-0 h-screen transition-all duration-300">
+      <aside className="hidden md:flex w-72 bg-card border-r border-border flex-col sticky top-0 h-screen transition-all duration-300">
         <SidebarContent />
       </aside>
 
-      {/* Main Orchestration Area */}
+      {/* Main Content Area */}
       <main className={cn(
-        "flex-grow p-4 md:p-10 transition-all duration-300",
+        "flex-grow p-4 md:p-10 transition-all duration-300 bg-background",
         isMobileMenuOpen ? "blur-sm md:blur-none" : ""
       )}>
         <div className="max-w-6xl mx-auto">

@@ -4,8 +4,16 @@ import { NextResponse } from 'next/server';
 export async function POST(req) {
   try {
     const timestamp = Math.round(new Date().getTime() / 1000);
+    const preset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+    
+    // Only include upload_preset in signature if it's not the default placeholder
+    const paramsToSign = { timestamp };
+    if (preset && preset !== 'your_upload_preset') {
+      paramsToSign.upload_preset = preset;
+    }
+
     const signature = cloudinary.utils.api_sign_request(
-      { timestamp, upload_preset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET },
+      paramsToSign,
       process.env.CLOUDINARY_API_SECRET
     );
 
@@ -16,6 +24,7 @@ export async function POST(req) {
       apiKey: process.env.CLOUDINARY_API_KEY,
     });
   } catch (error) {
-    return NextResponse.json({ message: 'Signature Error' }, { status: 500 });
+    console.error('Cloudinary Signature Error:', error);
+    return NextResponse.json({ message: 'Signature Error', error: error.message }, { status: 500 });
   }
 }
