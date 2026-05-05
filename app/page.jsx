@@ -65,11 +65,11 @@ export default function HomePage() {
           <p className="text-lg text-slate-400 mb-12 max-w-2xl mx-auto font-black uppercase tracking-widest leading-relaxed"> Karachi's most advanced property discovery platform.</p>
 
           <div className="glass p-2 md:p-3 rounded-2xl md:rounded-[32px] flex flex-col md:flex-row gap-3 max-w-4xl mx-auto shadow-2xl border border-white/10 backdrop-blur-2xl bg-white/5">
-            <div className="flex-grow flex items-center bg-black/40 rounded-xl md:rounded-[24px] px-6 border border-white/5">
+            <div className="flex-grow flex items-center bg-white rounded-xl md:rounded-[24px] px-6 border border-white/10">
               <MapPin className="text-primary mr-3" />
               <input
                 placeholder="Search Karachi, DHA, Clifton..."
-                className="w-full py-5 text-white placeholder:text-slate-500 outline-none bg-transparent font-bold"
+                className="w-full py-5 text-black placeholder:text-black/50 outline-none bg-transparent font-bold"
                 value={locationSearch}
                 onChange={(e) => setLocationSearch(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}

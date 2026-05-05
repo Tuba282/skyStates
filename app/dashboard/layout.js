@@ -40,8 +40,8 @@ export default function DashboardLayout({ children }) {
   if (loading || !user) return (
     <div className="h-screen flex items-center justify-center bg-background">
        <div className="flex flex-col items-center gap-4">
-          <div className="h-10 w-10 rounded-full border-4 border-slate-800 border-t-primary animate-spin" />
-          <p className="font-black text-slate-500 uppercase tracking-[0.3em] text-[10px] animate-pulse">Syncing OS...</p>
+          <div className="h-10 w-10 rounded-full border-4 border-border border-t-primary animate-spin" />
+          <p className="font-black text-muted uppercase tracking-[0.3em] text-[10px] animate-pulse">Syncing OS...</p>
        </div>
     </div>
   );
@@ -99,7 +99,7 @@ export default function DashboardLayout({ children }) {
                     "flex items-center justify-between p-3.5 rounded-xl font-black text-sm transition-all group border-2",
                     isActive 
                       ? "bg-primary text-white border-primary shadow-lg shadow-primary/20 scale-[1.02]" 
-                      : "text-slate-500 border-transparent hover:bg-card hover:text-foreground"
+                      : "text-muted border-transparent hover:bg-card hover:text-foreground"
                   )}
                 >
                   <div className="flex items-center gap-3">
@@ -147,8 +147,8 @@ export default function DashboardLayout({ children }) {
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[70] md:hidden animate-in fade-in transition-all" onClick={() => setIsMobileMenuOpen(false)}>
            <div className="w-[85%] max-w-[300px] bg-card h-full shadow-2xl flex flex-col animate-in slide-in-from-left duration-300 border-r border-border" onClick={e => e.stopPropagation()}>
               <div className="p-6 flex items-center justify-between border-b border-border">
-                <span className="font-black text-[10px] text-slate-500 uppercase tracking-widest bg-background px-2 py-1 rounded-md">Navigation Terminal</span>
-                <Button size="icon" variant="ghost" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-500 hover:text-foreground">
+                <span className="font-black text-[10px] text-muted uppercase tracking-widest bg-background px-2 py-1 rounded-md">Navigation Terminal</span>
+                <Button size="icon" variant="ghost" onClick={() => setIsMobileMenuOpen(false)} className="text-muted hover:text-foreground">
                    <X size={20} />
                 </Button>
               </div>

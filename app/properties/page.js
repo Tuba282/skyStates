@@ -88,12 +88,12 @@ export default function PropertiesPage() {
 
         {/* Filter Bar */}
         <div className="flex flex-col lg:flex-row gap-4 mb-10">
-          <div className="flex-grow glass p-2 rounded-2xl flex items-center shadow-2xl border border-border bg-card">
+          <div className="flex-grow glass p-2 rounded-2xl flex items-center shadow-2xl border border-border bg-slate-900/50 backdrop-blur-xl">
             <div className="relative flex-grow">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-primary" size={20} />
               <input 
                 placeholder="Search by location, title, or agency..." 
-                className="w-full pl-12 pr-4 py-4 bg-transparent text-foreground placeholder:text-muted outline-none font-bold"
+                className="w-full pl-12 pr-4 py-4 bg-transparent text-slate-700 placeholder:text-slate-800 outline-none font-bold"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />

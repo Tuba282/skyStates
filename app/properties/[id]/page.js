@@ -32,9 +32,6 @@ export default function PropertyDetailPage() {
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
 
-  // Public inquiries/Q&A state
-  const [inquiries, setInquiries] = useState([]);
-  const [inquiriesLoading, setInquiriesLoading] = useState(true);
   const [sendingInquiry, setSendingInquiry] = useState(false);
 
   useEffect(() => {
@@ -51,21 +48,7 @@ export default function PropertyDetailPage() {
     fetchProperty();
   }, [id]);
 
-  const fetchInquiries = async () => {
-    try {
-      setInquiriesLoading(true);
-      const { data } = await axios.get(`/api/properties/${id}/inquiries`);
-      setInquiries(data);
-    } catch {
-      // silent
-    } finally {
-      setInquiriesLoading(false);
-    }
-  };
 
-  useEffect(() => {
-    if (id) fetchInquiries();
-  }, [id]);
 
   const handleInquiry = async (e) => {
     e.preventDefault();
@@ -83,7 +66,6 @@ export default function PropertyDetailPage() {
       await axios.post('/api/inquiries', payload);
       toast.success('Inquiry sent! Agent will reply shortly.');
       e.target.reset();
-      await fetchInquiries(); // Refresh Q&A section
     } catch {
       toast.error('Failed to send inquiry');
     } finally {
@@ -166,88 +148,7 @@ export default function PropertyDetailPage() {
               <p className="text-muted-foreground leading-relaxed text-lg font-medium">{property.description}</p>
             </div>
 
-            {/* ===== PUBLIC Q&A / INQUIRIES SECTION ===== */}
-            <div className="bg-card rounded-[40px] shadow-sm border border-border overflow-hidden">
-              <div className="flex items-center gap-3 px-10 pt-10 pb-6 border-b border-border">
-                <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <MessageSquare size={20} className="text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-black text-foreground tracking-tight">
-                    Community <span className="text-primary italic">Q&A</span>
-                  </h3>
-                  <p className="text-[10px] font-black text-muted uppercase tracking-widest">
-                    {inquiries.length} inquiries · Agent replies publicly visible
-                  </p>
-                </div>
-              </div>
 
-              <div className="p-10 space-y-6">
-                {inquiriesLoading ? (
-                  <div className="text-center py-8">
-                    <div className="inline-block h-8 w-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-                  </div>
-                ) : inquiries.length === 0 ? (
-                  <div className="text-center py-10 bg-background/50 rounded-3xl border border-border">
-                    <MessageSquare size={40} className="mx-auto text-muted mb-3 opacity-40" />
-                    <p className="text-muted font-black uppercase tracking-widest text-xs">No inquiries yet. Be the first to ask!</p>
-                  </div>
-                ) : (
-                  inquiries.map((inq) => (
-                    <div key={inq._id} className="space-y-3">
-                      {/* User Message */}
-                      <div className="flex gap-4">
-                        <div className="h-9 w-9 rounded-xl bg-background border border-border flex items-center justify-center shrink-0 mt-1">
-                          <User size={16} className="text-muted" />
-                        </div>
-                        <div className="flex-grow">
-                          <div className="flex items-center gap-3 mb-1.5">
-                            <span className="font-black text-foreground text-sm">{inq.senderName}</span>
-                            <StatusBadge status={inq.status} />
-                            <span className="text-[10px] text-muted font-bold ml-auto">
-                              {new Date(inq.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
-                            </span>
-                          </div>
-                          <div className="bg-background border border-border rounded-2xl rounded-tl-none px-5 py-4">
-                            <p className="text-foreground text-sm font-medium leading-relaxed">{inq.message}</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Agent Reply */}
-                      {inq.reply?.text ? (
-                        <div className="flex gap-4 pl-8">
-                          <div className="h-9 w-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 mt-1">
-                            <CheckCircle size={16} className="text-primary" />
-                          </div>
-                          <div className="flex-grow">
-                            <div className="flex items-center gap-3 mb-1.5">
-                              <span className="font-black text-primary text-sm">{property.agent.name}</span>
-                              <span className="text-[9px] font-black text-primary/60 uppercase tracking-widest bg-primary/5 px-2 py-0.5 rounded-md border border-primary/10">Agent Reply</span>
-                              <span className="text-[10px] text-muted font-bold ml-auto">
-                                {new Date(inq.reply.repliedAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}
-                              </span>
-                            </div>
-                            <div className="bg-primary/5 border border-primary/15 rounded-2xl rounded-tl-none px-5 py-4">
-                              <p className="text-foreground text-sm font-medium leading-relaxed">{inq.reply.text}</p>
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="flex gap-4 pl-8">
-                          <div className="h-9 w-9 rounded-xl bg-background border border-border flex items-center justify-center shrink-0">
-                            <Clock size={14} className="text-muted" />
-                          </div>
-                          <div className="flex items-center">
-                            <p className="text-[10px] text-muted font-black uppercase tracking-widest">Awaiting agent reply...</p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
           </div>
 
           {/* RIGHT COLUMN — Contact Form */}

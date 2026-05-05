@@ -2,19 +2,19 @@
 
 :root {
   --foreground: #F8FAFC;
-  --background: #020617; /* Deep Navy Black */
+  --background: #334155; /* Slate 700 */
   --primary: #0EA5E9;
   --primary-foreground: #FFFFFF;
   --secondary: #0284C7;
   --secondary-foreground: #FFFFFF;
   --accent: #22C55E;
   --accent-foreground: #FFFFFF;
-  --muted: #64748B;
-  --muted-foreground: #94A3B8;
-  --card: #0F172A; /* Slightly lighter navy for cards */
+  --muted: #CBD5E1; /* Slate 200 */
+  --muted-foreground: #F8FAFC; /* Slate 50 */
+  --card: #475569; /* Slate 600 */
   --card-foreground: #F8FAFC;
-  --border: #1E293B;
-  --input: #1E293B;
+  --border: #1E293B; /* Slate 800 for depth */
+  --input: #1E293B; /* Slate 800 for depth */
   --ring: #0EA5E9;
   --radius: 1rem;
 }

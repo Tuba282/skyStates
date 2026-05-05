@@ -18,7 +18,7 @@ import toast from 'react-hot-toast';
 
 const SearchBar = ({ placeholder, value, onChange }) => (
   <div className="relative group max-w-xs w-full">
-    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors" size={18} />
+    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-primary transition-colors" size={18} />
     <input
       type="text"
       placeholder={placeholder}
@@ -42,7 +42,7 @@ const PaginationTrigger = ({ totalItems, itemsPerPage, currentPage, setCurrentPa
             "h-10 w-10 rounded-xl font-black text-xs transition-all border-none shadow-none",
             currentPage === i + 1
               ? "bg-primary text-white shadow-xl shadow-primary/20"
-              : "bg-card text-slate-500 hover:text-foreground hover:bg-slate-800"
+              : "bg-card text-muted hover:text-foreground hover:bg-slate-800"
           )}
           onClick={() => setCurrentPage(i + 1)}
         >
@@ -199,8 +199,8 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
-        <div className="h-10 w-10 rounded-full border-4 border-slate-800 border-t-primary animate-spin" />
-        <p className="font-black text-slate-500 uppercase tracking-[0.3em] text-[10px] animate-pulse">Syncing Hyperlink...</p>
+        <div className="h-10 w-10 rounded-full border-4 border-border border-t-primary animate-spin" />
+        <p className="font-black text-muted uppercase tracking-[0.3em] text-[10px] animate-pulse">Syncing Hyperlink...</p>
       </div>
     );
   }
@@ -234,7 +234,7 @@ export default function DashboardPage() {
           <Trash2 size={40} className="text-red-500" />
         </div>
         <h2 className="text-2xl font-black text-foreground tracking-tighter mb-2">Confirm <span className="text-red-500">Purge</span></h2>
-        <p className="text-slate-400 font-bold text-xs mb-8 uppercase tracking-widest leading-relaxed">
+        <p className="text-slate-200 font-bold text-xs mb-8 uppercase tracking-widest leading-relaxed">
           Are you absolutely sure you want to permanently delete <br/>
           <span className="text-foreground">"{deleteModal.title}"</span>?
         </p>
@@ -260,7 +260,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <h1 className="text-xl font-black text-foreground leading-none">Property <span className="text-primary italic">Vault</span></h1>
-              <p className="text-slate-500 font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredProperties.length} ACTIVE</p>
+              <p className="text-muted font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredProperties.length} ACTIVE</p>
             </div>
           </div>
           
@@ -271,7 +271,7 @@ export default function DashboardPage() {
           <div className="overflow-x-auto text-sm">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-background text-[10px] font-black uppercase tracking-widest text-slate-500 border-b border-border">
+                <tr className="bg-background text-[10px] font-black uppercase tracking-widest text-muted border-b border-border">
                   <th className="px-6 py-4">Registry Details</th>
                   <th className="px-6 py-4">Valuation</th>
                   <th className="px-6 py-4">Auth Status</th>
@@ -286,7 +286,7 @@ export default function DashboardPage() {
                         <img src={prop.images[0]} alt="" className="h-12 w-12 rounded-xl object-cover shadow-md border-2 border-border group-hover:scale-105 transition-transform" />
                         <div>
                           <p className="font-black text-foreground leading-none mb-1.5">{prop.title}</p>
-                          <p className="text-slate-500 font-bold text-[10px] flex items-center gap-1"><MapPin size={10} className="text-primary" /> {prop.location}</p>
+                          <p className="text-muted font-bold text-[10px] flex items-center gap-1"><MapPin size={10} className="text-primary" /> {prop.location}</p>
                         </div>
                       </div>
                     </td>
@@ -303,7 +303,7 @@ export default function DashboardPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
-                        <Button onClick={() => window.open(`/properties/${prop._id || prop.id}`, '_blank')} size="icon" variant="ghost" className="h-9 w-9 rounded-lg text-slate-500 hover:text-emerald-500 hover:bg-emerald-500/10 transition-colors"><Eye size={16} /></Button>
+                        <Button onClick={() => window.open(`/properties/${prop._id || prop.id}`, '_blank')} size="icon" variant="ghost" className="h-9 w-9 rounded-lg text-muted hover:text-emerald-500 hover:bg-emerald-500/10 transition-colors"><Eye size={16} /></Button>
 
                         {isAdmin ? (
                           <>
@@ -321,12 +321,12 @@ export default function DashboardPage() {
                             >
                               {prop.status === 'Approved' ? <XCircle size={16} /> : <CheckCircle size={16} />}
                             </Button>
-                            <Button onClick={() => setDeleteModal({ isOpen: true, type: 'property', id: prop._id || prop.id, title: prop.title })} size="icon" variant="ghost" className="h-9 w-9 rounded-lg text-slate-500 hover:text-red-500 hover:bg-red-500/10 transition-colors"><Trash2 size={16} /></Button>
+                            <Button onClick={() => setDeleteModal({ isOpen: true, type: 'property', id: prop._id || prop.id, title: prop.title })} size="icon" variant="ghost" className="h-9 w-9 rounded-lg text-muted hover:text-red-500 hover:bg-red-500/10 transition-colors"><Trash2 size={16} /></Button>
                           </>
                         ) : (
                           <>
-                            <Button onClick={() => router.push(`/dashboard/edit-property/${prop._id || prop.id}`)} size="icon" variant="ghost" className="h-9 w-9 rounded-lg text-slate-500 hover:text-primary hover:bg-primary/10 transition-colors"><Edit2 size={16} /></Button>
-                            <Button onClick={() => setDeleteModal({ isOpen: true, type: 'property', id: prop._id || prop.id, title: prop.title })} size="icon" variant="ghost" className="h-9 w-9 rounded-lg text-slate-500 hover:text-red-500 hover:bg-red-500/10 transition-colors"><Trash2 size={16} /></Button>
+                            <Button onClick={() => router.push(`/dashboard/edit-property/${prop._id || prop.id}`)} size="icon" variant="ghost" className="h-9 w-9 rounded-lg text-muted hover:text-primary hover:bg-primary/10 transition-colors"><Edit2 size={16} /></Button>
+                            <Button onClick={() => setDeleteModal({ isOpen: true, type: 'property', id: prop._id || prop.id, title: prop.title })} size="icon" variant="ghost" className="h-9 w-9 rounded-lg text-muted hover:text-red-500 hover:bg-red-500/10 transition-colors"><Trash2 size={16} /></Button>
                           </>
                         )}
                       </div>
@@ -346,7 +346,7 @@ export default function DashboardPage() {
     const data = paginate(filteredInquiries);
 
     const statusCfg = {
-      Unread:  'bg-slate-500/10 text-slate-400 border-slate-500/20',
+      Unread:  'bg-slate-500/10 text-slate-200 border-slate-500/20',
       Read:    'bg-amber-500/10 text-amber-400 border-amber-500/20',
       Replied: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
     };
@@ -360,7 +360,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <h1 className="text-xl font-black leading-none tracking-tight text-foreground">Signal <span className="text-primary italic">Bridge</span></h1>
-              <p className="text-slate-500 font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredInquiries.length} SIGNALS</p>
+              <p className="text-muted font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredInquiries.length} SIGNALS</p>
             </div>
           </div>
           <SearchBar placeholder="Search decrypt..." value={searchTerm} onChange={setSearchTerm} />
@@ -370,7 +370,7 @@ export default function DashboardPage() {
           {data.length === 0 ? (
             <div className="lg:col-span-2 text-center py-20 bg-card rounded-3xl border border-border">
               <MessageSquare size={48} className="mx-auto text-muted mb-4 opacity-30" />
-              <p className="text-slate-500 font-black uppercase tracking-widest text-xs">No inquiries yet</p>
+              <p className="text-muted font-black uppercase tracking-widest text-xs">No inquiries yet</p>
             </div>
           ) : data.map(inq => {
             const r = replyState[inq._id] || {};
@@ -399,7 +399,7 @@ export default function DashboardPage() {
                     {inq.property.images?.[0] && (
                       <img src={inq.property.images[0]} className="h-8 w-8 rounded-lg object-cover shrink-0" alt="" />
                     )}
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-wide line-clamp-1">{inq.property.title}</p>
+                    <p className="text-[10px] font-black text-slate-200 uppercase tracking-wide line-clamp-1">{inq.property.title}</p>
                   </div>
                 )}
 
@@ -455,7 +455,7 @@ export default function DashboardPage() {
                       </Button>
                       <Button
                         variant="outline"
-                        className="h-10 px-4 rounded-xl text-slate-500 font-black border-border text-[9px] uppercase"
+                        className="h-10 px-4 rounded-xl text-muted font-black border-border text-[9px] uppercase"
                         onClick={() => setReplyState(prev => ({ ...prev, [inq._id]: { ...prev[inq._id], open: false } }))}
                       >Cancel</Button>
                     </div>
@@ -479,7 +479,7 @@ export default function DashboardPage() {
           </div>
           <div>
             <h1 className="text-xl font-black leading-none tracking-tight text-foreground">User <span className="text-primary italic">Profile</span></h1>
-            <p className="text-slate-500 font-bold mt-1 text-[10px] uppercase tracking-widest">PERSONAL ACCOUNT DATA</p>
+            <p className="text-muted font-bold mt-1 text-[10px] uppercase tracking-widest">PERSONAL ACCOUNT DATA</p>
           </div>
         </header>
 
@@ -496,11 +496,11 @@ export default function DashboardPage() {
               
               <div className="space-y-3 pt-6 border-t border-border">
                  <div className="flex justify-between items-center px-4 py-2 bg-background rounded-xl">
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Status</span>
+                    <span className="text-[10px] font-black text-muted uppercase tracking-widest">Status</span>
                     <span className="text-emerald-500 font-black text-[10px]">ACTIVE</span>
                  </div>
                  <div className="flex justify-between items-center px-4 py-2 bg-background rounded-xl">
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Secure key</span>
+                    <span className="text-[10px] font-black text-muted uppercase tracking-widest">Secure key</span>
                     <span className="text-foreground font-black text-[10px]">••••••••</span>
                  </div>
               </div>
@@ -511,16 +511,16 @@ export default function DashboardPage() {
               <form className="space-y-6">
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                       <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Full Name</label>
-                       <input disabled value={user.name} className="w-full p-4 rounded-xl bg-background border border-border text-slate-500 font-bold outline-none cursor-not-allowed opacity-60" />
+                       <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">Full Name</label>
+                       <input disabled value={user.name} className="w-full p-4 rounded-xl bg-background border border-border text-muted font-bold outline-none cursor-not-allowed opacity-60" />
                     </div>
                     <div className="space-y-2">
-                       <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Email Hash</label>
-                       <input disabled value={user.email} className="w-full p-4 rounded-xl bg-background border border-border text-slate-500 font-bold outline-none cursor-not-allowed opacity-60" />
+                       <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">Email Hash</label>
+                       <input disabled value={user.email} className="w-full p-4 rounded-xl bg-background border border-border text-muted font-bold outline-none cursor-not-allowed opacity-60" />
                     </div>
                  </div>
                  <div className="space-y-2 pt-4">
-                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Biography / Data</label>
+                    <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">Biography / Data</label>
                     <textarea className="w-full p-4 rounded-xl bg-background border border-border text-foreground font-bold outline-none focus:border-primary/30 h-32" placeholder="Tell the network about yourself..."></textarea>
                  </div>
                  <div className="flex justify-end pt-4">
@@ -545,7 +545,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <h1 className="text-xl font-black leading-none tracking-tight text-foreground">Citizen <span className="text-purple-600 italic">Control</span></h1>
-              <p className="text-slate-500 font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredUsers.length} PROFILES</p>
+              <p className="text-muted font-bold mt-1 text-[10px] uppercase tracking-widest">{filteredUsers.length} PROFILES</p>
             </div>
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
@@ -558,7 +558,7 @@ export default function DashboardPage() {
           <div className="overflow-x-auto text-sm text-foreground">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-background text-[10px] font-black uppercase tracking-widest text-slate-500 border-b border-border">
+                <tr className="bg-background text-[10px] font-black uppercase tracking-widest text-muted border-b border-border">
                   <th className="px-6 py-4">Civilian Profile</th>
                   <th className="px-6 py-4 text-center">Auth Level</th>
                   <th className="px-6 py-4 text-right">Governance Desk</th>
@@ -575,21 +575,21 @@ export default function DashboardPage() {
                         </div>
                         <div>
                           <p className="font-black text-foreground leading-none mb-1">{u.name} {u._id === user.id && <span className="text-[8px] text-primary">(ME)</span>}</p>
-                          <p className="text-slate-500 font-bold text-[10px] tracking-tight">{u.email}</p>
+                          <p className="text-muted font-bold text-[10px] tracking-tight">{u.email}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-center">
                       <Badge className={cn(
                         "px-3 py-0.5 rounded-lg font-black text-[8px] tracking-widest border-none shadow-sm",
-                        u.role === 'ADMIN' ? 'bg-purple-600/20 text-purple-600' : u.role === 'AGENT' ? 'bg-sky-600/20 text-sky-600' : 'bg-slate-500/20 text-slate-500'
+                        u.role === 'ADMIN' ? 'bg-purple-600/20 text-purple-600' : u.role === 'AGENT' ? 'bg-sky-600/20 text-sky-600' : 'bg-slate-500/20 text-muted'
                       )}>
                         {u.role.toUpperCase()}
                       </Badge>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
-                        <Button onClick={() => handleUpdatePassword(u._id)} size="icon" variant="ghost" className="h-8 w-8 rounded-lg text-slate-500 hover:text-primary hover:bg-primary/10"><Lock size={14} /></Button>
+                        <Button onClick={() => handleUpdatePassword(u._id)} size="icon" variant="ghost" className="h-8 w-8 rounded-lg text-muted hover:text-primary hover:bg-primary/10"><Lock size={14} /></Button>
                         <Button onClick={() => handleToggleBlock(u)} size="sm" variant="ghost" className={cn("h-8 px-3 rounded-lg font-black text-[8px] uppercase tracking-widest transition-colors", u.status === 'BLOCKED' ? 'bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20' : 'bg-amber-500/10 text-amber-500 hover:bg-amber-500/20')}>{u.status === 'BLOCKED' ? 'UNBLOCK' : 'BLOCK'}</Button>
                         <Button onClick={() => setDeleteModal({ isOpen: true, type: 'user', id: u._id, title: u.name })} size="sm" variant="ghost" className="h-8 px-3 rounded-lg bg-red-500/10 text-red-500 font-black text-[8px] uppercase tracking-widest hover:bg-red-500/20">TERM</Button>
                       </div>
@@ -606,33 +606,33 @@ export default function DashboardPage() {
         {showAddUserModal && (
           <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
             <Card className="w-full max-w-md p-8 rounded-[32px] border-border shadow-2xl relative bg-card scale-in-center">
-              <Button size="icon" variant="ghost" onClick={() => setShowAddUserModal(false)} className="absolute top-4 right-4 text-slate-500"><X size={20} /></Button>
+              <Button size="icon" variant="ghost" onClick={() => setShowAddUserModal(false)} className="absolute top-4 right-4 text-muted"><X size={20} /></Button>
               <h2 className="text-3xl font-black text-foreground tracking-tighter mb-2">Activate <span className="text-purple-600 italic">Agent</span></h2>
-              <p className="text-slate-500 font-bold text-xs mb-8 uppercase tracking-widest">Enroll new authenticated personnel</p>
+              <p className="text-muted font-bold text-xs mb-8 uppercase tracking-widest">Enroll new authenticated personnel</p>
               <form onSubmit={handleAddUser} className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-500 uppercase ml-2">Display Name</label>
+                  <label className="text-[10px] font-black text-muted uppercase ml-2">Display Name</label>
                   <div className="relative">
-                    <UserCircle className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+                    <UserCircle className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={18} />
                     <input required value={newUser.name} onChange={e => setNewUser({ ...newUser, name: e.target.value })} type="text" className="w-full pl-11 pr-4 py-3 bg-background rounded-xl border-2 border-border focus:border-purple-600/30 outline-none font-bold text-sm text-foreground" placeholder="Full Name" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-500 uppercase ml-2">Access Email</label>
+                  <label className="text-[10px] font-black text-muted uppercase ml-2">Access Email</label>
                   <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={18} />
                     <input required value={newUser.email} onChange={e => setNewUser({ ...newUser, email: e.target.value })} type="email" className="w-full pl-11 pr-4 py-3 bg-background rounded-xl border-2 border-border focus:border-purple-600/30 outline-none font-bold text-sm text-foreground" placeholder="email@skyestate.com" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-500 uppercase ml-2">Initial Key</label>
+                  <label className="text-[10px] font-black text-muted uppercase ml-2">Initial Key</label>
                   <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={18} />
                     <input required value={newUser.password} onChange={e => setNewUser({ ...newUser, password: e.target.value })} type="password" className="w-full pl-11 pr-4 py-3 bg-background rounded-xl border-2 border-border focus:border-purple-600/30 outline-none font-bold text-sm text-foreground" placeholder="••••••••" />
                   </div>
                 </div>
                 <div className="space-y-1.5 pb-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase ml-2">Assigned Role</label>
+                  <label className="text-[10px] font-black text-muted uppercase ml-2">Assigned Role</label>
                   <select value={newUser.role} onChange={e => setNewUser({ ...newUser, role: e.target.value })} className="w-full px-4 py-3 bg-background rounded-xl border-2 border-border focus:border-purple-600/30 outline-none font-black text-sm text-foreground appearance-none">
                     <option value="AGENT">FIELD AGENT</option>
                     <option value="ADMIN">SYS ADMINISTRATOR</option>
@@ -664,7 +664,7 @@ export default function DashboardPage() {
         <div className="absolute top-0 right-0 h-32 w-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         <div className="relative">
           <h1 className="text-3xl font-black text-foreground tracking-tighter leading-none mb-2">SkyEstate <span className="text-primary italic">OS</span></h1>
-          <p className="text-slate-500 font-bold text-sm flex items-center gap-2">
+          <p className="text-muted font-bold text-sm flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             Authenticated: <span className="font-black text-foreground">{user.name}</span>
           </p>
@@ -686,7 +686,7 @@ export default function DashboardPage() {
               <stat.icon size={28} strokeWidth={2.5} />
             </div>
             <div>
-              <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">{stat.label}</p>
+              <p className="text-[9px] font-black text-muted uppercase tracking-widest mb-1">{stat.label}</p>
               <h3 className="text-3xl font-black text-foreground tracking-tighter">{stat.value}</h3>
             </div>
           </Card>
@@ -710,13 +710,13 @@ export default function DashboardPage() {
                         <img src={prop.images[0]} alt="" className="h-14 w-14 rounded-2xl object-cover shadow-md border-2 border-border" />
                         <div>
                           <p className="font-black text-foreground leading-none mb-1 tracking-tight">{prop.title}</p>
-                          <p className="text-slate-500 font-bold text-[10px] tracking-tight">{prop.location}</p>
+                          <p className="text-muted font-bold text-[10px] tracking-tight">{prop.location}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-4 py-4 text-right">
                       <p className="font-black text-primary text-xl tracking-tighter">${prop.price.toLocaleString()}</p>
-                      <Badge className="bg-background text-slate-500 border-none font-black text-[8px] px-2 py-0 uppercase">Listing</Badge>
+                      <Badge className="bg-background text-muted border-none font-black text-[8px] px-2 py-0 uppercase">Listing</Badge>
                     </td>
                   </tr>
                 ))}
@@ -739,10 +739,10 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h4 className="font-black text-foreground text-sm leading-none mb-1 truncate">{inq.senderName}</h4>
-                    <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest">LEAD SIGNAL</p>
+                    <p className="text-[8px] font-black text-muted uppercase tracking-widest">LEAD SIGNAL</p>
                   </div>
                 </div>
-                <p className="text-slate-500 font-bold text-[10px] italic line-clamp-2">"{inq.message}"</p>
+                <p className="text-muted font-bold text-[10px] italic line-clamp-2">"{inq.message}"</p>
               </Card>
             ))}
           </div>
