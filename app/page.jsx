@@ -26,9 +26,14 @@ export default function HomePage() {
     const fetchFeatured = async () => {
       try {
         const { data } = await axios.get('/api/properties');
-        setFeaturedProperties(data.slice(0, 9));
+        if (Array.isArray(data)) {
+          setFeaturedProperties(data.slice(0, 9));
+        } else {
+          console.error('API did not return an array:', data);
+          setFeaturedProperties([]);
+        }
       } catch (error) {
-        console.error('Home load error');
+        console.error('Home load error:', error.response?.data || error.message);
       } finally {
         setLoading(false);
       }

@@ -23,6 +23,11 @@ export default function PropertiesPage() {
   const [minPrice, setMinPrice] = useState('');
   const [beds, setBeds] = useState('All');
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isPaginating, setIsPaginating] = useState(false);
+  const itemsPerPage = 9;
+
   const fetchProperties = async () => {
     try {
       setLoading(true);
@@ -45,6 +50,7 @@ export default function PropertiesPage() {
 
   useEffect(() => {
     fetchProperties();
+    setCurrentPage(1); // Reset to page 1 on filter change
   }, [activeTab, search, category, beds]); // Refetch on these changes
 
   const filteredProperties = properties.filter(p => 
@@ -52,13 +58,32 @@ export default function PropertiesPage() {
     p.location.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentProperties = filteredProperties.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => {
+    setIsPaginating(true);
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Artificial delay for smooth transition/loader visibility
+    setTimeout(() => {
+      setIsPaginating(false);
+    }, 600);
+  };
+
   return (
     <div className="bg-background min-h-screen py-10">
       <div className="container mx-auto px-4">
         {/* Header Area */}
         <div className="mb-10">
           <h1 className="text-4xl font-black text-foreground mb-2">Explore <span className="text-primary italic">All Listings</span></h1>
-          <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px]">Discover {filteredProperties.length} active properties</p>
+          <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px]">
+            Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredProperties.length)} of {filteredProperties.length} active properties
+          </p>
         </div>
 
         {/* Filter Bar */}
@@ -151,18 +176,63 @@ export default function PropertiesPage() {
           </div>
         )}
 
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map(n => (
-              <div key={n} className="h-80 bg-card rounded-3xl animate-pulse" />
-            ))}
+        {loading || isPaginating ? (
+          <div className="flex flex-col items-center justify-center py-32 space-y-8">
+            <div className="relative w-24 h-24">
+              <div className="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-t-primary rounded-full animate-spin"></div>
+            </div>
+            <p className="text-muted-foreground font-black uppercase tracking-[0.3em] animate-pulse">
+              {isPaginating ? 'Updating Catalog...' : 'Syncing Property Vault...'}
+            </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProperties.map(property => (
-              <PropertyCard key={property.id} property={property} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {currentProperties.map(property => (
+                <PropertyCard key={property.id} property={property} />
+              ))}
+            </div>
+
+            {/* Pagination UI */}
+            {totalPages > 1 && (
+              <div className="mt-16 flex justify-center items-center gap-2">
+                <Button 
+                  variant="outline" 
+                  disabled={currentPage === 1}
+                  onClick={() => paginate(currentPage - 1)}
+                  className="rounded-xl px-6 py-4 font-black"
+                >
+                  PREV
+                </Button>
+                
+                <div className="flex gap-2">
+                  {[...Array(totalPages)].map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => paginate(i + 1)}
+                      className={`w-12 h-12 rounded-xl font-black text-sm transition-all ${
+                        currentPage === i + 1
+                          ? 'bg-primary text-white shadow-xl shadow-primary/30 scale-110'
+                          : 'bg-card border border-border text-muted-foreground hover:border-primary/50'
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+
+                <Button 
+                  variant="outline" 
+                  disabled={currentPage === totalPages}
+                  onClick={() => paginate(currentPage + 1)}
+                  className="rounded-xl px-6 py-4 font-black"
+                >
+                  NEXT
+                </Button>
+              </div>
+            )}
+          </>
         )}
 
         {!loading && filteredProperties.length === 0 && (

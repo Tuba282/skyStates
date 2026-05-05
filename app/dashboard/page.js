@@ -70,6 +70,9 @@ export default function DashboardPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
+  // Inquiry reply state: { [inquiryId]: { open: bool, text: string, sending: bool } }
+  const [replyState, setReplyState] = useState({});
+
   // Modals for CRUD
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [newUser, setNewUser] = useState({ name: '', email: '', password: '', role: 'AGENT' });
@@ -82,7 +85,7 @@ export default function DashboardPage() {
     try {
       const endpoints = [
         axios.get('/api/dashboard/stats'),
-        axios.get(`/api/properties${isAgent ? `?agent=${user.id}` : ''}`),
+        axios.get(`/api/properties${isAgent ? `?agent=${user.id}` : isAdmin ? '?all=true' : ''}`),
         axios.get('/api/inquiries')
       ];
 
@@ -175,6 +178,21 @@ export default function DashboardPage() {
       fetchData();
     } catch (error) {
       toast.error("Process failed");
+    }
+  };
+
+  const handleSendReply = async (inquiryId) => {
+    const r = replyState[inquiryId];
+    if (!r?.text?.trim()) return toast.error('Reply cannot be empty');
+    setReplyState(prev => ({ ...prev, [inquiryId]: { ...prev[inquiryId], sending: true } }));
+    try {
+      await axios.patch(`/api/inquiries/${inquiryId}`, { replyText: r.text });
+      toast.success('Reply sent!');
+      setReplyState(prev => ({ ...prev, [inquiryId]: { open: false, text: '', sending: false } }));
+      fetchData(); // Refresh inquiries list
+    } catch {
+      toast.error('Failed to send reply');
+      setReplyState(prev => ({ ...prev, [inquiryId]: { ...prev[inquiryId], sending: false } }));
     }
   };
 
@@ -326,6 +344,13 @@ export default function DashboardPage() {
 
   if (view === 'inquiries') {
     const data = paginate(filteredInquiries);
+
+    const statusCfg = {
+      Unread:  'bg-slate-500/10 text-slate-400 border-slate-500/20',
+      Read:    'bg-amber-500/10 text-amber-400 border-amber-500/20',
+      Replied: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    };
+
     return (
       <div className="space-y-6 animate-fade-in-up">
         <header className="flex flex-col md:flex-row justify-between items-center gap-4 bg-card p-6 rounded-3xl shadow-sm border border-border">
@@ -342,27 +367,103 @@ export default function DashboardPage() {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {data.map(inq => (
-            <Card key={inq._id} className="p-6 border-border bg-card shadow-xl rounded-2xl group hover:-translate-y-1 transition-all">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-background flex items-center justify-center border border-border shrink-0">
-                    <UserIcon className="text-primary" size={20} />
+          {data.length === 0 ? (
+            <div className="lg:col-span-2 text-center py-20 bg-card rounded-3xl border border-border">
+              <MessageSquare size={48} className="mx-auto text-muted mb-4 opacity-30" />
+              <p className="text-slate-500 font-black uppercase tracking-widest text-xs">No inquiries yet</p>
+            </div>
+          ) : data.map(inq => {
+            const r = replyState[inq._id] || {};
+            const alreadyReplied = !!inq.reply?.text;
+            return (
+              <Card key={inq._id} className="p-6 border-border bg-card shadow-xl rounded-2xl flex flex-col gap-4">
+                {/* Header */}
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-xl bg-background flex items-center justify-center border border-border shrink-0">
+                      <UserIcon className="text-primary" size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-foreground text-sm leading-none mb-1">{inq.senderName}</h4>
+                      <p className="text-primary text-[9px] font-black uppercase tracking-widest">{inq.senderEmail}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-black text-foreground text-sm leading-none mb-1">{inq.senderName}</h4>
-                    <p className="text-primary text-[9px] font-black uppercase tracking-widest">{inq.senderEmail}</p>
-                  </div>
+                  <span className={cn('inline-flex items-center px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border', statusCfg[inq.status] || statusCfg.Unread)}>
+                    {inq.status}
+                  </span>
                 </div>
-                <Badge className="bg-emerald-500/10 text-emerald-500 border-none font-black text-[8px] tracking-widest">{inq.status.toUpperCase()}</Badge>
-              </div>
-              <p className="text-slate-400 text-xs font-bold italic leading-relaxed mb-4 bg-background p-3 rounded-xl border border-border">"{inq.message}"</p>
-              <div className="flex gap-2">
-                <Button className="flex-grow h-10 rounded-xl font-black text-[10px] tracking-widest">TRANSMIT REPLY</Button>
-                <Button variant="outline" className="h-10 px-4 rounded-xl text-slate-500 font-black border-border hover:bg-background hover:text-foreground text-[9px] uppercase tracking-widest">ARCHIVE</Button>
-              </div>
-            </Card>
-          ))}
+
+                {/* Property ref */}
+                {inq.property && (
+                  <div className="flex items-center gap-2 bg-background rounded-xl p-3 border border-border">
+                    {inq.property.images?.[0] && (
+                      <img src={inq.property.images[0]} className="h-8 w-8 rounded-lg object-cover shrink-0" alt="" />
+                    )}
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-wide line-clamp-1">{inq.property.title}</p>
+                  </div>
+                )}
+
+                {/* User message */}
+                <p className="text-slate-300 text-xs font-medium italic leading-relaxed bg-background p-4 rounded-xl border border-border">
+                  &ldquo;{inq.message}&rdquo;
+                </p>
+
+                {/* Existing reply */}
+                {alreadyReplied && (
+                  <div className="bg-primary/5 border border-primary/15 rounded-xl p-4">
+                    <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-2">Your Reply · {new Date(inq.reply.repliedAt).toLocaleDateString()}</p>
+                    <p className="text-sm text-foreground font-medium leading-relaxed">{inq.reply.text}</p>
+                    <button
+                      onClick={() => setReplyState(prev => ({ ...prev, [inq._id]: { open: true, text: inq.reply.text, sending: false } }))}
+                      className="mt-2 text-[9px] font-black text-primary/60 uppercase tracking-widest hover:text-primary transition-colors"
+                    >Edit Reply</button>
+                  </div>
+                )}
+
+                {/* Reply form toggle */}
+                {!alreadyReplied && !r.open && (
+                  <Button
+                    className="h-10 rounded-xl font-black text-[10px] tracking-widest bg-primary text-white w-full"
+                    onClick={() => setReplyState(prev => ({ ...prev, [inq._id]: { open: true, text: '', sending: false } }))}
+                  >
+                    SEND REPLY
+                  </Button>
+                )}
+
+                {/* Reply input */}
+                {r.open && (
+                  <div className="space-y-3">
+                    <textarea
+                      rows={3}
+                      value={r.text || ''}
+                      onChange={e => setReplyState(prev => ({ ...prev, [inq._id]: { ...prev[inq._id], text: e.target.value } }))}
+                      className="w-full p-3 rounded-xl bg-background border-2 border-primary/30 text-foreground text-sm font-medium outline-none resize-none focus:border-primary/60 transition-colors placeholder:text-slate-600"
+                      placeholder="Type your reply..."
+                    />
+                    <div className="flex gap-2">
+                      <Button
+                        className="flex-grow h-10 rounded-xl font-black text-[10px] tracking-widest bg-primary text-white"
+                        disabled={r.sending}
+                        onClick={() => handleSendReply(inq._id)}
+                      >
+                        {r.sending ? (
+                          <span className="flex items-center gap-2">
+                            <span className="h-3.5 w-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            Sending...
+                          </span>
+                        ) : 'TRANSMIT'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="h-10 px-4 rounded-xl text-slate-500 font-black border-border text-[9px] uppercase"
+                        onClick={() => setReplyState(prev => ({ ...prev, [inq._id]: { ...prev[inq._id], open: false } }))}
+                      >Cancel</Button>
+                    </div>
+                  </div>
+                )}
+              </Card>
+            );
+          })}
         </div>
         <PaginationTrigger totalItems={filteredInquiries.length} itemsPerPage={itemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
       </div>

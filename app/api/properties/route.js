@@ -13,14 +13,26 @@ export async function GET(req) {
     const category = searchParams.get('category');
     const minPrice = searchParams.get('minPrice');
     const beds = searchParams.get('beds');
-
     const agent = searchParams.get('agent');
+    const all = searchParams.get('all');
 
     const query = {};
-    
-    // Default to only approved, but allow all if filtering by specific agent (dashboard view)
     if (agent) {
       query.agent = agent;
+    } else if (all === 'true') {
+      const token = req.cookies.get('skyestate_token')?.value;
+      let isVerifiedAdmin = false;
+      if (token) {
+        try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          if (decoded.role === 'ADMIN') isVerifiedAdmin = true;
+        } catch (e) {
+          // ignore
+        }
+      }
+      if (!isVerifiedAdmin) {
+        query.status = 'Approved';
+      }
     } else {
       query.status = 'Approved';
     }
@@ -40,10 +52,14 @@ export async function GET(req) {
       ];
     }
 
-    const properties = await Property.find(query).populate('agent', 'name avatar agency').sort({ createdAt: -1 });
+    const properties = await Property.find(query)
+      .populate('agent', 'name avatar agency')
+      .sort({ createdAt: -1 });
 
-    // Format _id to id for frontend compatibility
-    const formatted = properties.map(p => ({ ...p._doc, id: p._id }));
+    const formatted = properties.map(p => {
+      const obj = p.toObject ? p.toObject() : p;
+      return { ...obj, id: obj._id };
+    });
 
     return NextResponse.json(formatted);
   } catch (error) {

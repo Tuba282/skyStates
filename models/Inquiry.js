@@ -6,8 +6,15 @@ const InquirySchema = new mongoose.Schema({
   senderName: { type: String, required: true },
   senderEmail: { type: String, required: true },
   message: { type: String, required: true },
-  status: { type: String, default: 'Unread' },
+  status: { type: String, enum: ['Unread', 'Read', 'Replied'], default: 'Unread' },
+  reply: {
+    text: { type: String },
+    repliedAt: { type: Date },
+  },
   createdAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.models.Inquiry || mongoose.model('Inquiry', InquirySchema);
+if (mongoose.models.Inquiry) {
+  delete mongoose.models.Inquiry;
+}
+export default mongoose.model('Inquiry', InquirySchema);
