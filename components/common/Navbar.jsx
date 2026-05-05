@@ -62,7 +62,7 @@ export default function Navbar() {
                     <p className="text-sm font-bold leading-none">{user.name}</p>
                     <p className="text-xs text-muted leading-tight">{user.role}</p>
                   </div>
-                  <img src={`/userDefault.jpg`} alt={user.name} className="h-10 w-10 rounded-full border-2 border-primary/20" />
+                  <img src={user.avatar || '/default.webp'} alt={user.name} className="h-10 w-10 rounded-full border-2 border-primary/20" />
                   <Button variant="ghost" size="icon" onClick={logout} className="text-red-500 hover:bg-red-50" title="Logout">
                     <LogOut className="h-5 w-5" />
                   </Button>

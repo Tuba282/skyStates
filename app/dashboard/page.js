@@ -486,7 +486,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
            <Card className="lg:col-span-1 p-8 text-center bg-card border-border shadow-xl rounded-[32px]">
               <div className="relative inline-block mb-6">
-                <img src={user.avatar || 'https://i.pravatar.cc/150'} className="h-32 w-32 rounded-[40px] object-cover border-4 border-primary/20 shadow-2xl" />
+                <img src={user.avatar || '/default.webp'} className="h-32 w-32 rounded-[40px] object-cover border-4 border-primary/20 shadow-2xl" />
                 <div className="absolute -bottom-2 -right-2 h-10 w-10 bg-primary rounded-2xl flex items-center justify-center text-white border-4 border-card shadow-lg">
                    <Plus size={20} />
                 </div>
@@ -570,7 +570,7 @@ export default function DashboardPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="relative">
-                          <img src={u.avatar || 'https://i.pravatar.cc/150'} className="h-10 w-10 rounded-xl object-cover shadow-sm border border-border" />
+                          <img src={u.avatar || '/default.webp'} className="h-10 w-10 rounded-xl object-cover shadow-sm border border-border" />
                           {u.status === 'BLOCKED' && <ShieldAlert size={14} className="absolute -top-1 -right-1 text-red-500 fill-white" />}
                         </div>
                         <div>

@@ -74,7 +74,7 @@ export default function DashboardLayout({ children }) {
          {/* Profile Header */}
          <div className="flex items-center gap-3 mb-10 p-3 bg-background/50 rounded-2xl border border-border shadow-inner">
             <div className="relative">
-              <img src={user.avatar || 'https://i.pravatar.cc/150'} alt={user.name} className="h-11 w-11 rounded-xl object-cover shadow-sm border-2 border-border" />
+              <img src={user.avatar || '/default.webp'} alt={user.name} className="h-11 w-11 rounded-xl object-cover shadow-sm border-2 border-border" />
               <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-emerald-500 border-2 border-card rounded-full" />
             </div>
             <div className="min-w-0">

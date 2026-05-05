@@ -10,14 +10,14 @@ export const USERS = [
     name: 'Admin User',
     email: 'admin@estate.com',
     role: ROLES.ADMIN,
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+    avatar: '/default.webp',
   },
   {
     id: 'u2',
     name: 'Sarah Agent',
     email: 'sarah@estate.com',
     role: ROLES.AGENT,
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
+    avatar: '/default.webp',
     agency: 'Elite Homes',
   },
   {
@@ -25,7 +25,7 @@ export const USERS = [
     name: 'John Buyer',
     email: 'john@gmail.com',
     role: ROLES.USER,
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop',
+    avatar: '/default.webp',
   },
 ];
 
