@@ -53,8 +53,8 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative h-[700px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-black/60 z-10" />
-          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1600&h=900&fit=crop" className="w-full h-full object-cover animate-pulse-slow scale-110" />
+          <div className="absolute inset-0 bg-black/50 z-10" />
+          <img src="/home.jpg" className="w-full h-full object-cover animate-pulse-slow scale-110" />
         </div>
 
         <div className="relative z-20 text-center text-white px-4">

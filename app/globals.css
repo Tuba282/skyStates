@@ -2,7 +2,7 @@
 
 :root {
   --foreground: #F8FAFC;
-  --background: #334155; /* Slate 700 */
+  --background: #000000; /* Slate 700 */
   --primary: #0EA5E9;
   --primary-foreground: #FFFFFF;
   --secondary: #0284C7;
@@ -11,7 +11,7 @@
   --accent-foreground: #FFFFFF;
   --muted: #CBD5E1; /* Slate 200 */
   --muted-foreground: #F8FAFC; /* Slate 50 */
-  --card: #475569; /* Slate 600 */
+  --card: #6364664a; /* Slate 600 */
   --card-foreground: #F8FAFC;
   --border: #1E293B; /* Slate 800 for depth */
   --input: #1E293B; /* Slate 800 for depth */

@@ -35,7 +35,7 @@ export default function PropertyCard({ property }) {
   };
 
   return (
-    <Card hover className="group flex flex-col h-full bg-card">
+    <Card hover className="group flex flex-col border border-gray-400  h-full bg-card">
       {/* Image Section */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <img 

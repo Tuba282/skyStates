@@ -4,19 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { 
-  LayoutDashboard, 
-  Home, 
-  PlusCircle, 
-  Settings, 
-  Users, 
-  MessageSquare, 
-  Heart, 
-  LogOut,
-  Menu,
-  X,
-  ShieldCheck
-} from 'lucide-react';
+import { LayoutDashboard, Home, PlusCircle, Settings, Users, MessageSquare, Heart, LogOut, Menu, X, ShieldCheck } from 'lucide-react';
 import { Button, Badge, cn } from '@/components/ui';
 
 export default function DashboardLayout({ children }) {
@@ -39,10 +27,10 @@ export default function DashboardLayout({ children }) {
 
   if (loading || !user) return (
     <div className="h-screen flex items-center justify-center bg-background">
-       <div className="flex flex-col items-center gap-4">
-          <div className="h-10 w-10 rounded-full border-4 border-border border-t-primary animate-spin" />
-          <p className="font-black text-muted uppercase tracking-[0.3em] text-[10px] animate-pulse">Syncing OS...</p>
-       </div>
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-10 w-10 rounded-full border-4 border-border border-t-primary animate-spin" />
+        <p className="font-black text-muted uppercase tracking-[0.3em] text-[10px] animate-pulse">Syncing OS...</p>
+      </div>
     </div>
   );
 
@@ -71,53 +59,53 @@ export default function DashboardLayout({ children }) {
   const SidebarContent = () => (
     <>
       <div className="p-6 flex-grow overflow-y-auto no-scrollbar">
-         {/* Profile Header */}
-         <div className="flex items-center gap-3 mb-10 p-3 bg-background/50 rounded-2xl border border-border shadow-inner">
-            <div className="relative">
-              <img src={user.avatar || '/default.webp'} alt={user.name} className="h-11 w-11 rounded-xl object-cover shadow-sm border-2 border-border" />
-              <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-emerald-500 border-2 border-card rounded-full" />
-            </div>
-            <div className="min-w-0">
-              <p className="font-black text-foreground leading-none mb-1 text-sm truncate">{user.name}</p>
-              <Badge className={cn(
-                "border-none text-[8px] font-black uppercase px-2 py-0 shadow-none",
-                isAdmin ? "bg-purple-600/20 text-purple-600" : "bg-primary/10 text-primary"
-              )}>
-                {user.role}
-              </Badge>
-            </div>
-         </div>
-         
-         <nav className="space-y-1.5">
-            {links.map((link) => {
-              const isActive = currentView === link.view;
-              return (
-                <Link 
-                  key={link.name} 
-                  href={link.href}
-                  className={cn(
-                    "flex items-center justify-between p-3.5 rounded-xl font-black text-sm transition-all group border-2",
-                    isActive 
-                      ? "bg-primary text-white border-primary shadow-lg shadow-primary/20 scale-[1.02]" 
-                      : "text-muted border-transparent hover:bg-card hover:text-foreground"
-                  )}
-                >
-                  <div className="flex items-center gap-3">
-                    <link.icon size={20} strokeWidth={isActive ? 3 : 2} />
-                    <span className="tracking-tight">{link.name}</span>
-                  </div>
-                  {isActive && <div className="h-1.5 w-1.5 rounded-full bg-white shadow-sm" />}
-                </Link>
-              );
-            })}
-         </nav>
+        {/* Profile Header */}
+        <div className="flex items-center gap-3 mb-10 p-3 bg-background/50 rounded-2xl border border-border shadow-inner">
+          <div className="relative">
+            <img src={user.avatar || '/default.webp'} alt={user.name} className="h-11 w-11 rounded-xl object-cover shadow-sm border-2 border-border" />
+            <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-emerald-500 border-2 border-card rounded-full" />
+          </div>
+          <div className="min-w-0">
+            <p className="font-black text-foreground leading-none mb-1 text-sm truncate">{user.name}</p>
+            <Badge className={cn(
+              "border-none text-[8px] font-black uppercase px-2 py-0 shadow-none",
+              isAdmin ? "bg-purple-600/20 text-purple-600" : "bg-primary/10 text-primary"
+            )}>
+              {user.role}
+            </Badge>
+          </div>
+        </div>
+
+        <nav className="space-y-1.5">
+          {links.map((link) => {
+            const isActive = currentView === link.view;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={cn(
+                  "flex items-center justify-between p-3.5 rounded-xl font-black text-sm transition-all group border-2",
+                  isActive
+                    ? "bg-primary text-white border-primary shadow-lg shadow-primary/20 scale-[1.02]"
+                    : "text-muted border-transparent hover:bg-card hover:text-foreground"
+                )}
+              >
+                <div className="flex items-center gap-3">
+                  <link.icon size={20} strokeWidth={isActive ? 3 : 2} />
+                  <span className="tracking-tight">{link.name}</span>
+                </div>
+                {isActive && <div className="h-1.5 w-1.5 rounded-full bg-white shadow-sm" />}
+              </Link>
+            );
+          })}
+        </nav>
       </div>
 
       {/* Logout Section */}
       <div className="p-6 border-t border-border bg-card">
-        <Button 
-          variant="ghost" 
-          className="w-full justify-start text-red-500 hover:bg-red-500/10 hover:text-red-600 font-black text-xs gap-3 rounded-xl h-12 transition-all active:scale-95 px-4 group" 
+        <Button
+          variant="ghost"
+          className="w-full justify-start text-red-500 hover:bg-red-500/10 hover:text-red-600 font-black text-xs gap-3 rounded-xl h-12 transition-all active:scale-95 px-4 group"
           onClick={logout}
         >
           <div className="h-8 w-8 rounded-lg bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
@@ -133,27 +121,27 @@ export default function DashboardLayout({ children }) {
     <div className="min-h-screen bg-background flex flex-col md:flex-row relative">
       {/* Mobile Top Bar */}
       <div className="md:hidden bg-card border-b border-border p-4 flex items-center justify-between sticky top-0 z-[60] shadow-sm">
-         <div className="flex items-center gap-2">
-           <img src="/logo.png" alt="Logo" className="h-8 w-auto object-contain" />
-           <span className="font-black text-foreground tracking-tighter">SkyEstate <span className="text-primary italic">OS</span></span>
-         </div>
-         <Button size="icon" variant="ghost" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="h-10 w-10 text-slate-400 rounded-xl bg-background hover:bg-card border-border border">
-            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-         </Button>
+        <div className="flex items-center gap-2">
+          <img src="/logo.png" alt="Logo" className="h-8 w-auto object-contain" />
+          <span className="font-black text-foreground tracking-tighter">SkyEstate <span className="text-primary italic">OS</span></span>
+        </div>
+        <Button size="icon" variant="ghost" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="h-10 w-10 text-slate-400 rounded-xl bg-background hover:bg-card border-border border">
+          {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </Button>
       </div>
 
       {/* Mobile Overlay Navigation */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[70] md:hidden animate-in fade-in transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-           <div className="w-[85%] max-w-[300px] bg-card h-full shadow-2xl flex flex-col animate-in slide-in-from-left duration-300 border-r border-border" onClick={e => e.stopPropagation()}>
-              <div className="p-6 flex items-center justify-between border-b border-border">
-                <span className="font-black text-[10px] text-muted uppercase tracking-widest bg-background px-2 py-1 rounded-md">Navigation Terminal</span>
-                <Button size="icon" variant="ghost" onClick={() => setIsMobileMenuOpen(false)} className="text-muted hover:text-foreground">
-                   <X size={20} />
-                </Button>
-              </div>
-              <SidebarContent />
-           </div>
+          <div className="w-[85%] max-w-[300px] bg-card h-full shadow-2xl flex flex-col animate-in slide-in-from-left duration-300 border-r border-border" onClick={e => e.stopPropagation()}>
+            <div className="p-6 flex items-center justify-between border-b border-border">
+              <span className="font-black text-[10px] text-muted uppercase tracking-widest bg-background px-2 py-1 rounded-md">Navigation Terminal</span>
+              <Button size="icon" variant="ghost" onClick={() => setIsMobileMenuOpen(false)} className="text-muted hover:text-foreground">
+                <X size={20} />
+              </Button>
+            </div>
+            <SidebarContent />
+          </div>
         </div>
       )}
 
